@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from .schemas import AttributePrediction, DecisionLogEntry, VisionQualityFlags
+from .schemas import AttributePrediction, DecisionLogEntry, ExtractedDimensions, VisionQualityFlags
 
 _ATTR_KEYS = ["category", "room_type", "style", "material"]
 _UNKNOWN_VALUE = "unknown"
@@ -133,7 +133,7 @@ def _unknown_prediction(source: str) -> AttributePrediction:
 	)
 
 
-def _normalize_value(value: str | dict | None) -> str | None:
+def _normalize_value(value: str | ExtractedDimensions | dict | None) -> str | None:
 	if value is None:
 		return None
 	if isinstance(value, str):
@@ -141,11 +141,13 @@ def _normalize_value(value: str | dict | None) -> str | None:
 	return None
 
 
-def _stringify_value(value: str | dict | None) -> str:
+def _stringify_value(value: str | ExtractedDimensions | dict | None) -> str:
 	if value is None:
 		return ""
 	if isinstance(value, str):
 		return value
+	if isinstance(value, ExtractedDimensions):
+		return value.model_dump_json()
 	return str(value)
 
 

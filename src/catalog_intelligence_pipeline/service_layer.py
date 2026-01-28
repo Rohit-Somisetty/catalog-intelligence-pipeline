@@ -218,10 +218,10 @@ def _ensure_ingested(record: ProductRecord, cfg: AppConfig, timings: StageTiming
             ingested = IngestedProductRecord.model_validate(record.model_dump())
         else:
             raw = RawProductRecord.model_validate(record.model_dump())
-            ingested, ingest_error = _ingest_raw(raw, cfg)
+            ingest_result, ingest_error = _ingest_raw(raw, cfg)
             if ingest_error:
                 raise PipelineError(ingest_error)
-            if ingested is None:  # pragma: no cover - defensive guard
+            if ingest_result is None:  # pragma: no cover - defensive guard
                 raise PipelineError(
                     APIError(
                         product_id=record.product_id,
@@ -230,6 +230,7 @@ def _ensure_ingested(record: ProductRecord, cfg: AppConfig, timings: StageTiming
                         stage="ingest",
                     )
                 )
+            ingested = ingest_result
     except ValidationError as exc:
         raise PipelineError(
             APIError(

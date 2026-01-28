@@ -7,7 +7,7 @@ import json
 import re
 from collections.abc import Iterable, Sequence
 from pathlib import Path
-from typing import Any
+from typing import Any, Protocol, runtime_checkable
 
 import requests
 from PIL import Image, UnidentifiedImageError
@@ -17,6 +17,13 @@ from .schemas import IngestedProductRecord, IngestError, RawProductRecord
 
 _SUPPORTED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
 _JSON_SUFFIXES = {".json", ".jsonl"}
+
+
+@runtime_checkable
+class SupportsModelDump(Protocol):
+    """Subset of Pydantic models that expose model_dump()."""
+
+    def model_dump(self, *args: Any, **kwargs: Any) -> Any: ...
 
 
 class IngestException(Exception):
@@ -102,8 +109,8 @@ def write_jsonl(path: Path | str, items: Iterable[Any]) -> None:
 
     with destination.open("w", encoding="utf-8") as handle:
         for item in items:
-            if hasattr(item, "model_dump"):
-                payload = item.model_dump(mode="json")  # type: ignore[attr-defined]
+            if isinstance(item, SupportsModelDump):
+                payload = item.model_dump(mode="json")
             else:
                 payload = item
             handle.write(json.dumps(payload))

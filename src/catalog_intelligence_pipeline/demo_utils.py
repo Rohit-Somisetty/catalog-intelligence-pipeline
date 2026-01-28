@@ -4,7 +4,9 @@ from __future__ import annotations
 
 from pathlib import Path
 from random import Random
+from typing import cast
 
+from pydantic import HttpUrl
 from PIL import Image, ImageDraw
 
 from .schemas import RawProductRecord
@@ -44,7 +46,7 @@ def generate_synthetic_records(
         description = desc_base if rng.random() > 0.2 else None
         image_path = fixtures[idx % len(fixtures)]
         include_remote = idx % 2 == 0
-        image_url = f"https://demo.catalog/{product_id}.jpg" if include_remote else None
+        image_url = cast(HttpUrl, f"https://demo.catalog/{product_id}.jpg") if include_remote else None
 
         record = RawProductRecord(
             product_id=product_id,
