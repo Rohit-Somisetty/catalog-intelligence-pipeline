@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CatalogPredictionEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "event_ts",
+    "source",
+    "version",
+    "product_id",
+    "predictions"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 8
+    },
+    "event_ts": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "string",
+      "minLength": 3
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^v[0-9]+$"
+    },
+    "product_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "request_id": {
+      "type": "string"
+    },
+    "predictions": {
+      "type": "object",
+      "required": ["category", "room_type", "style", "material"],
+      "additionalProperties": false,
+      "properties": {
+        "category": {"$ref": "#/definitions/attributePrediction"},
+        "room_type": {"$ref": "#/definitions/attributePrediction"},
+        "style": {"$ref": "#/definitions/attributePrediction"},
+        "material": {"$ref": "#/definitions/attributePrediction"}
+      }
+    },
+    "decision_log": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "sources_considered": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "chosen_source": {"type": "string"},
+          "reason": {"type": "string"},
+          "conflicts": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        },
+        "required": ["sources_considered", "chosen_source", "reason"],
+        "additionalProperties": false
+      }
+    },
+    "image_quality_flags": {
+      "type": "object",
+      "properties": {
+        "blurry": {"type": "boolean"},
+        "low_res": {"type": "boolean"},
+        "dark": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "definitions": {
+    "attributePrediction": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": ["string", "null"]
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "extracted_by": {
+          "type": "string"
+        }
+      },
+      "required": ["confidence", "extracted_by"],
+      "additionalProperties": false
+    }
+  }
+}

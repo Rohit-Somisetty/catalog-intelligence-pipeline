@@ -1,0 +1,21 @@
+{
+  "event_id": "a1b2c3d4e5",
+  "event_ts": "2025-01-01T12:00:00Z",
+  "source": "catalog-intel.api",
+  "version": "v1",
+  "product_id": "sample-001",
+  "predictions": {
+    "category": {"value": "Table", "confidence": 0.9, "extracted_by": "fusion"},
+    "room_type": {"value": "Dining Room", "confidence": 0.92, "extracted_by": "fusion"},
+    "style": {"value": "Mid-Century", "confidence": 0.88, "extracted_by": "llm_stub"},
+    "material": {"value": "Walnut", "confidence": 0.8, "extracted_by": "llm_stub"}
+  },
+  "decision_log": {
+    "category": {
+      "sources_considered": ["text", "vision"],
+      "chosen_source": "merged",
+      "reason": "Signals agreed",
+      "conflicts": []
+    }
+  }
+}

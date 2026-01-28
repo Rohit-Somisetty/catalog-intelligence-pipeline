@@ -1,0 +1,10 @@
+{
+  "__comment": "Invalid because product_id is missing and predictions set is incomplete.",
+  "event_id": "xyz-123",
+  "event_ts": "2025-01-01T12:00:00Z",
+  "source": "catalog-intel.api",
+  "version": "v1",
+  "predictions": {
+    "category": {"value": "Sofa", "confidence": 0.7, "extracted_by": "fusion"}
+  }
+}

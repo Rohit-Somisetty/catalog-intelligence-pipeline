@@ -1,0 +1,14 @@
+[
+  {"name": "event_id", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "event_ts", "type": "TIMESTAMP", "mode": "REQUIRED"},
+  {"name": "product_id", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "category_value", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "category_confidence", "type": "FLOAT", "mode": "NULLABLE"},
+  {"name": "room_type_value", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "room_type_confidence", "type": "FLOAT", "mode": "NULLABLE"},
+  {"name": "style_value", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "style_confidence", "type": "FLOAT", "mode": "NULLABLE"},
+  {"name": "material_value", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "material_confidence", "type": "FLOAT", "mode": "NULLABLE"},
+  {"name": "raw_payload", "type": "JSON", "mode": "NULLABLE"}
+]

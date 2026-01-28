@@ -1,0 +1,19 @@
+version: "3.10"
+
+services:
+  api:
+    build: .
+    image: catalog-intel-api:local
+    ports:
+      - "8000:8000"
+    environment:
+      CIP_CACHE_DIR: /app/.cache/images
+      CIP_EVENTS_DIR: /app/outputs/events
+      CIP_ENABLE_PUBLISH: "1"
+      CIP_ENABLE_WAREHOUSE: "1"
+      CIP_PUBLISH_MODE: local
+      CIP_WAREHOUSE_MODE: duckdb
+      CIP_VALIDATE_EVENTS: "1"
+    volumes:
+      - .:/app
+    command: ["uvicorn", "catalog_intelligence_pipeline.api:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
