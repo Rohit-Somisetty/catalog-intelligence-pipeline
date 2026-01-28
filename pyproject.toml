@@ -23,7 +23,13 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["ruff>=0.5.0", "mypy>=1.10.0", "pytest>=8.2.0"]
+dev = [
+    "ruff>=0.5.0",
+    "mypy>=1.10.0",
+    "pytest>=8.2.0",
+    "types-jsonschema>=4.22.0",
+    "types-requests>=2.32.0",
+]
 
 [project.scripts]
 catalog-pipeline = "catalog_intelligence_pipeline.cli:app"
@@ -42,6 +48,10 @@ strict = false
 check_untyped_defs = true
 warn_unused_ignores = true
 warn_redundant_casts = true
+
+[[tool.mypy.overrides]]
+module = ["duckdb", "duckdb.*"]
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

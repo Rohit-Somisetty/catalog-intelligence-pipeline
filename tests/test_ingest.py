@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import cast
 
 import pytest
+from pydantic import HttpUrl
 
 from catalog_intelligence_pipeline import ingest
 from catalog_intelligence_pipeline.schemas import RawProductRecord
@@ -65,7 +67,7 @@ def test_resolve_images_reuses_cached_download(monkeypatch, tmp_path: Path, samp
         product_id="cache-test",
         title="Side Table",
         description="",
-        image_url="https://example.com/table.png",
+        image_url=cast(HttpUrl, "https://example.com/table.png"),
     )
     cache_dir = tmp_path / ".cache"
     calls: list[str] = []

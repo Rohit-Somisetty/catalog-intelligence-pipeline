@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime
+from typing import cast
+
+from pydantic import HttpUrl
 
 from catalog_intelligence_pipeline.flatten import flatten_predicted_record_to_row
 from catalog_intelligence_pipeline.schemas import (
@@ -26,7 +29,7 @@ def test_flatten_predicted_record_to_row() -> None:
         product_id="prod-1",
         title="Walnut Table",
         description="",
-        image_url="https://example.com/image.jpg",
+        image_url=cast(HttpUrl, "https://example.com/image.jpg"),
         image_path="/tmp/image.jpg",
         image_local_path="/tmp/image.jpg",
         predictions={**predictions, "dimensions": _attr("", 0.0)},

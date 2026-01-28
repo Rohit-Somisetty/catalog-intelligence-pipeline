@@ -1,3 +1,7 @@
+from typing import cast
+
+from pydantic import HttpUrl
+
 from catalog_intelligence_pipeline.enrich import enrich_records
 from catalog_intelligence_pipeline.predict import predict_records
 from catalog_intelligence_pipeline.schemas import IngestedProductRecord
@@ -8,7 +12,7 @@ def test_predict_records_produces_final_predictions(sample_image_path) -> None:
         product_id="predict-001",
         title="Contemporary Fabric Sofa",
         description="Soft fabric sofa perfect for living rooms. Measures 84 x 34 x 32 in.",
-        image_url="https://example.com/sofa.jpg",
+        image_url=cast(HttpUrl, "https://example.com/sofa.jpg"),
         image_path=str(sample_image_path),
         image_local_path=str(sample_image_path),
     )

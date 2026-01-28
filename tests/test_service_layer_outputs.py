@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import cast
 
 import duckdb
+from pydantic import HttpUrl
 
 from catalog_intelligence_pipeline.config import AppConfig
 from catalog_intelligence_pipeline.schemas import IngestedProductRecord
@@ -14,7 +16,7 @@ def _build_record(sample_image_path: Path) -> IngestedProductRecord:
         product_id="svc-001",
         title="Modern Sofa",
         description="A comfy sofa",
-        image_url="https://example.com/sofa.jpg",
+        image_url=cast(HttpUrl, "https://example.com/sofa.jpg"),
         image_path=str(sample_image_path),
         image_local_path=str(sample_image_path),
     )
@@ -82,7 +84,9 @@ def test_predict_one_publishes_and_writes_warehouse(tmp_path: Path, sample_image
     assert cfg.warehouse_path.exists()
     conn = duckdb.connect(str(cfg.warehouse_path))
     try:
-        count = conn.execute("SELECT COUNT(*) FROM catalog__predictions").fetchone()[0]
+        result = conn.execute("SELECT COUNT(*) FROM catalog__predictions").fetchone()
     finally:
         conn.close()
-    assert count >= 1
+
+    assert result is not None
+    assert result[0] >= 1
