@@ -6,7 +6,7 @@ import csv
 from pathlib import Path
 from typing import Any, Protocol
 
-import duckdb
+import duckdb  # type: ignore[import-not-found]
 
 
 class WarehouseSink(Protocol):

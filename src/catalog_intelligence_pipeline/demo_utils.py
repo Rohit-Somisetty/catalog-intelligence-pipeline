@@ -6,8 +6,8 @@ from pathlib import Path
 from random import Random
 from typing import cast
 
-from pydantic import HttpUrl
 from PIL import Image, ImageDraw
+from pydantic import HttpUrl
 
 from .schemas import RawProductRecord
 
